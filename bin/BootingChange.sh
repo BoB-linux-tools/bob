@@ -117,10 +117,13 @@ elif [ "$os_name" == "ubuntu" ]; then
     chown root:root bgrt-fallback.png
     chown root:root ubuntu-logo.png
 
-    cd /usr/share/plymouth/themes || { echo "디렉토리 이동 실패"; exit 1; }
+    cd /usr/share/plymouth/themes/ || { echo "디렉토리 이동 실패"; exit 1; }
     cp "$new_lock" lock.png
-
     chown root:root lock.png
+
+    cd /usr/share/plymouth/
+    cp "$new_logo" ubuntu-logo.png
+    chown root:root ubuntu-logo.png
 
     # plymouth 재설정
     update-initramfs -u
