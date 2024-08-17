@@ -15,10 +15,7 @@ script_dir=$(pwd)
 # 배포판 판별 및 실행
 if [ "$os_name" == "kali" ]; then
     echo "This is Kali Linux."
-
-    # 이미지 파일 목록 가져오기 (Kali)
     wallpaper_files=("${script_dir}/../resource/screan"*.png)
-   echo "$wallpaper_files"
     
     # 파일 개수 확인
     wallpaper_count=${#wallpaper_files[@]}
@@ -28,17 +25,35 @@ if [ "$os_name" == "kali" ]; then
 
     # 선택된 파일 설정
     WALLPAPER_PATH="${wallpaper_files[$random_wallpaper]}"
-    echo "$WALLPAPER_PATH"
 
-    # 모든 모니터와 워크스페이스에 대해 배경화면 변경
-    MONITORS=$(xfconf-query -c xfce4-desktop -p /backdrop -lv | grep last-image | awk -F '/' '{print $4}' | uniq)
+    # 경로 목록
+    paths=(
+        "/backdrop/monitor0/workspace0/last-image"
+        "/backdrop/monitor1/workspace0/last-image"
+        "/backdrop/monitorVirtual1/workspace0/last-image"
+        "/backdrop/screen0/monitor0/last-image"
+        "/backdrop/screen0/monitor0/workspace0/last-image"
+        "/backdrop/screen0/monitor1/last-image"
+        "/backdrop/screen0/monitorVirtual1/workspace0/last-image"
+        "/backdrop/screen0/monitorVirtual1/workspace1/last-image"
+        "/backdrop/screen0/monitorVirtual1/workspace2/last-image"
+        "/backdrop/screen0/monitorVirtual1/workspace3/last-image"
+        "/backdrop/workspace0/workspace0/last-image"
+    )
     
-    for MONITOR in $MONITORS; do
-        xfconf-query -c xfce4-desktop -p /backdrop/$MONITOR/workspace0/last-image --create -t string -s "$WALLPAPER_PATH"
-        xfconf-query -c xfce4-desktop -p /backdrop/$MONITOR/workspace0/image-style --create -t int -s 4
+    # 각 경로에 대해 배경화면 설정
+    for path in "${paths[@]}"; do
+        echo "Setting background for path: $path"
+        xfconf-query -c xfce4-desktop -p "$path" -s "${script_dir}/../resource/${WALLPAPER_PATH}"
     done
+    echo "$WALLPAPER_PATH"
+    # xfdesktop 종료 및 재시작
+    echo "Restarting xfdesktop..."
+    xfdesktop --quit
+    sleep 2  # 잠시 대기
+    xfdesktop &
+    
 
-    echo "Kali 배경화면이 변경되었습니다."
 
 elif [ "$os_name" == "ubuntu" ]; then
     echo "This is Ubuntu."
@@ -50,7 +65,7 @@ elif [ "$os_name" == "ubuntu" ]; then
     screen_count=${#screen_files[@]}
     
     # 랜덤 숫자 생성
-    random_screen=$((RANDOM % wallpaper_count))
+    random_screen=$((RANDOM % screen_count))
 
     # 선택된 파일 설정
     WALLPAPER_PATH="${screen_files[$random_screen]}"
@@ -64,3 +79,4 @@ else
     echo "This script is only designed for Kali Linux and Ubuntu. Detected OS: $os_name"
     exit 1
 fi
+
