@@ -7,9 +7,9 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # 새 이미지 파일 경로 설정
-new_kali_logo="../resource/logo.png"
-new_kali_aqua_16x19="../resource/background.png"
-new_outline="../resource/outline.png"
+new_kali_logo="../resource/logo1.png"
+new_kali_aqua_16x19="../resource/background1.jpg"
+new_outline="../resource/outline1.png"
 
 # 파일 포맷 확인
 if [[ ! "$new_kali_logo" =~ \.png$ ]] || [[ ! "$new_kali_logo_container" =~ \.png$ ]] || [[ ! "$new_kali_logo_container_small" =~ \.png$ ]] || [[ ! "$new_kali_logo_fade" =~ \.png$ ]] || [[ ! "$new_kali_logo_fade_small" =~ \.png$ ]] || [[ ! "$new_kali_logo_small" =~ \.png$ ]] || [[ ! "$new_kali_aqua_16x19" =~ \.jpg$ ]] || [[ ! "$new_kali_ferrofluid_16x9" =~ \.jpg$ ]]; then
