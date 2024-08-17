@@ -48,7 +48,7 @@ elif [ "$os_name" == "ubuntu" ]; then
     screen_count=${#screen_files[@]}
     
     # 랜덤 숫자 생성
-    random_screen=$((RANDOM % wallpaper_count))
+    random_screen=$((RANDOM % screen_count))
 
     # 선택된 파일 설정
     WALLPAPER_PATH="${screen_files[$random_screen]}"
