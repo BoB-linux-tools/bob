@@ -14,6 +14,19 @@ check_and_install_dependencies() {
             exit 1
         fi
     fi
+
+    if ! command -v bc &> /dev/null; then
+        echo "bc is not installed. Installing bc..."
+        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            sudo apt-get update
+            sudo apt-get install -y bc
+        elif [[ "$OSTYPE" == "darwin"* ]]; then
+            brew install bc
+        else
+            echo "Unsupported OS. Please install bc manually."
+            exit 1
+        fi
+    fi
 }
 
 # WAV 파일을 생성하는 함수
@@ -55,7 +68,7 @@ create_melody_wav() {
     sox $(for i in "${!notes[@]}"; do echo "note_${i}.wav"; done) melody.wav
 }
 
-# 비프음을 재생하는 함수
+# 멜로디를 재생하는 함수
 play_melody() {
     echo "Playing melody..."
     sox melody.wav -d
