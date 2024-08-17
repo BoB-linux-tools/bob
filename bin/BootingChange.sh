@@ -6,10 +6,13 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+# 현재 디렉토리의 절대경로 가져오기
+script_dir=$(pwd)
+
 # 이미지 파일 목록 가져오기
-background_files=(../resource/background*.jpg)
-logo_files=(../resource/logo*.png)
-outline_files=(../resource/outline*.png)
+background_files=("${script_dir}/../resource/background"*.jpg)
+logo_files=("${script_dir}/../resource/logo"*.png)
+outline_files=("${script_dir}/../resource/outline"*.png)
 
 # 파일 개수 확인
 background_count=${#background_files[@]}
@@ -17,14 +20,14 @@ logo_count=${#logo_files[@]}
 outline_count=${#outline_files[@]}
 
 # 랜덤 숫자 생성
-random_background=$((RANDOM % background_count + 1))
-random_logo=$((RANDOM % logo_count + 1))
-random_outline=$((RANDOM % outline_count + 1))
+random_background=$((RANDOM % background_count))
+random_logo=$((RANDOM % logo_count))
+random_outline=$((RANDOM % outline_count))
 
 # 선택된 파일 설정
-new_kali_aqua_16x19="../resource/background${random_background}.jpg"
-new_kali_logo="../resource/logo${random_logo}.png"
-new_outline="../resource/outline${random_outline}.png"
+new_kali_aqua_16x19="${background_files[$random_background]}"
+new_kali_logo="${logo_files[$random_logo]}"
+new_outline="${outline_files[$random_outline]}"
 
 # 파일 포맷 확인
 if [[ ! "$new_kali_logo" =~ \.png$ ]] || [[ ! "$new_kali_aqua_16x19" =~ \.jpg$ ]]; then
@@ -64,3 +67,4 @@ update-initramfs -u
 
 # 완료 메시지
 echo "로고 변경이 완료되었습니다. 시스템을 재부팅하여 변경 사항을 확인해 주세요."
+
