@@ -38,6 +38,8 @@ sudo cp -r etc/* /etc/
 # 라이브러리 캐시 업데이트
 echo "Updating library cache..."
 sudo ldconfig
+sudo chmod +x /usr/local/bin/codecheck
+sudo chmod +x /usr/local/bin/song
 
 echo "Installation complete. You can now use the 'bob' command."
 
