@@ -33,12 +33,12 @@ create_tone_wav() {
 create_melody_wav() {
     echo "Creating melody..."
     
-    # "Happy Birthday" 노래의 멜로디에 맞는 notes와 durations 배열 정의
+    # "Happy Birthday" 노래의 멜로디에 맞는 notes와 durations 배열 정의 (주파수 높임)
     notes=(
-        264 264 297 264 352 330 # Happy Birthday to You
-        264 264 297 264 396 352 # Happy Birthday to You
-        264 264 528 440 352 330 297 # Happy Birthday dear [Name]
-        466 466 440 352 396 352 # Happy Birthday to You
+        528 528 594 528 704 660 # Happy Birthday to You (기존의 2배 주파수)
+        528 528 594 528 792 704 # Happy Birthday to You
+        528 528 1056 880 704 660 594 # Happy Birthday dear [Name]
+        932 932 880 704 792 704 # Happy Birthday to You
     )
     durations=(
         500 500 1000 1000 1000 2000 # 첫 줄
@@ -67,9 +67,14 @@ cleanup() {
     rm -f note_*.wav melody.wav
 }
 
-# 스크립트 실행
-check_and_install_dependencies
-create_melody_wav
-play_melody
-cleanup
+# 스크립트 메인 함수
+main() {
+    check_and_install_dependencies
+    create_melody_wav
+    play_melody
+    cleanup
+}
 
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
+fi
