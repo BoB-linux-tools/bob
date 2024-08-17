@@ -81,26 +81,22 @@ elif [ "$os_name" == "ubuntu" ]; then
     # 이미지 파일 목록 가져오기 (Ubuntu)
     watermark_files=("${script_dir}/../resource/watermark"*.png)
     bgrt_files=("${script_dir}/../resource/bgrt-fallback"*.png)
-    lock_files=("${script_dir}/../resource/lock"*.png)
-    logo_files=("${script_dir}/../resource/ubuntu-logo"*.png)
+    lock_files=("${script_dir}/../resource/watermark"*.png)
+    logo_files=("${script_dir}/../resource/watermark"*.png)
 
     # 파일 개수 확인
     watermark_count=${#watermark_files[@]}
     bgrt_count=${#bgrt_files[@]}
-    lock_count=${#lock_files[@]}
-    logo_count=${#logo_files[@]}
 
     # 랜덤 숫자 생성
     random_watermark=$((RANDOM % watermark_count))
     random_bgrt=$((RANDOM % bgrt_count))
-    random_lock=$((RANDOM % lock_count))
-    random_logo=$((RANDOM % logo_count))
 
     # 선택된 파일 설정
     new_watermark="${watermark_files[$random_watermark]}"
     new_bgrt="${bgrt_files[$random_bgrt]}"
-    new_lock="${lock_files[$random_lock]}"
-    new_logo="${logo_files[$random_logo]}"
+    new_lock="${watermark_files[$random_watermark]}"
+    new_logo="${watermark_files[$random_watermark]}"
 
     # 파일 포맷 확인
     if [[ ! "$new_logo" =~ \.png$ ]]; then
